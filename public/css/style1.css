@@ -1,0 +1,137 @@
+/*左侧头部*/
+.app-content {
+    background-color: #f1f1f1;
+}
+::-moz-selection {
+    color: #FFF;
+    background-color: #5f97fb;
+}
+::selection {
+    color: #FFF;
+    background-color: #5f97fb;
+}
+.app-title {
+    padding: 15px 30px;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #FFF;
+    text-decoration: none;
+    background-color: #5f97fb;
+}
+.app-title-tabs {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    height: 40px;
+}
+.app-title-tabs .nav-item:hover>a {
+    color: #5f97fb;
+    border-top: 3px solid #5f97fb;
+}
+.app-title-tabs .nav-item.active>a {
+    color: #5f97fb;
+    border-top: 3px solid #5f97fb;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #EFF7FF;
+}
+.table thead th {
+    border-bottom: none;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+}
+.form-group {
+    display: -webkit-box;
+    display: -moz-box;
+}
+.search-head {
+    width: 100%;
+}
+.form-list {
+    margin-bottom: 1rem;
+}
+.left-input {
+    text-align: right;
+}
+.left-input label{
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 35px;
+}
+.btn-search {
+    background-color: #409EFF !important;
+    color: #fff !important;
+    display: inline-block;
+}
+.btn-delete {
+    background-color: #ef4836;
+    color: #fff;
+    display: inline-block;
+}
+.btn-return {
+    background-color: #b5b5b5;
+    color: white;
+    text-align: center;
+    margin-left: 24px;
+}
+.btn-return:hover {
+    color: #fff;
+}
+.btn-save {
+    background-color: #2C3E50;
+    color: #fff;
+}
+.table-list thead tr th {
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+.table-list tbody tr td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.form-control {
+    display: inline-block;
+    border: 1px solid #ced4da;
+}
+.form-control:focus  {
+    border-color: #5f97fb;
+}
+.page-link {
+    color: #5f97fb;
+}
+.page-item.active .page-link {
+    background-color: #5f97fb;
+    border-color: #5f97fb;
+}
+.page-link:hover {
+    color: #5f97fb;
+}
+.form-list .col-md-2 {
+    max-width: 150px;
+}
+.button-list {
+    margin-left: 5rem;
+}
+@media (max-width: 768px) {
+    .left-input {
+        text-align: left;
+    }
+    .button-list {
+        margin-left: -1rem;
+    }
+}
+@media (max-width: 2400px){
+    .table-responsive-lg {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}
