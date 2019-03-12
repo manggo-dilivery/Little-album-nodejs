@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台</title>
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+    <script src="/summernote/summernote.min.js"></script>
+    <script type="text/javascript" src="/summernote/lang/summernote-zh-CN.js"></script>
+    <style>
+        .a-upload {
+            padding: 4px 10px;
+            height: 30px;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
+
+        .a-upload  input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer;
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+    </style>
+</head>
+<body class="app sidebar-mini rtl">
+<!--头部-->
+<% include houtaiHeader.ejs %>
+<!--右侧-->
+<main class="app-content">
+    <div class="app-title">
+        <ul class=" nav nav-tabs app-title-tabs">
+            <li class="nav-item active">
+                <a class="nav-link " href="">课程管理</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tile">
+        <p style="font-size:20px;">设置分类内容</p>
+
+    </div>
+    <form method="post" id="categoryContentForm" action="/vue/uploadCategory?id=<%=id%>" name="categoryData" enctype="multipart/form-data">
+        <div class="tile">
+            <img src="" id="show" width="375">
+            <a href="javascript:;" class="a-upload">
+                <input type="file" name="imageData" id="file" onchange="changepic(this)">上传图片
+            </a>
+        </div>
+        <div class="tile">
+            <p>图片描述：</p>
+            <textarea type="text" class="form-control" placeholder="图片描述" name="categoryContent"></textarea>
+        </div>
+        <div class="tile" style="display:flex;justify-content: flex-end">
+            <button id="reload" type="button" class="btn btn-default" style="margin-right:30px;">重新上传</button>
+            <input type="submit" class="btn btn-default">
+        </div>
+
+        <div class="tile">
+            <p>已上传内容：</p>
+            <% if(result.length==0){ %>
+                <div></div>
+            <% }else{ %>
+
+                <% for(var i=0 ; i<result.length ; i++){ %>
+                    <div style="border:1px solid #ddd;width:310px;height: auto;">
+                        <img src="<%= result[i].category_image %>" style="width:300px;height: auto;margin:0 auto;" alt="">
+                        <p style="font-size:16px;margin-left:5px;"><%= result[i].categoryContent %></p>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </form>
+
+
+</main>
+<script>
+    $("#category_btn").click(function () {
+        var category = $('#category_ipt').val()
+        $.get('/vue/setCategory',{'category':category},function (result) {
+            if(result==1) {
+                alert('提交成功');
+                window.location='/vue/shareImage';
+            }else if(result==-1){
+                alert('提交失败，请重新提交')
+            }
+        })
+    })
+    function changepic(obj) {
+        //console.log(obj.files[0]);//这里可以获取上传文件的name
+        var newsrc=getObjectURL(obj.files[0]);
+        document.getElementById('show').src=newsrc;
+    }
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null ;
+        // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+</script>
+</body>
+</html>

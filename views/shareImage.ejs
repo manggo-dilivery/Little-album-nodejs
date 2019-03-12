@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台</title>
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+    <script src="/summernote/summernote.min.js"></script>
+    <script type="text/javascript" src="/summernote/lang/summernote-zh-CN.js"></script>
+    <style>
+        .category_div{
+            height: 40px;
+            width:100%;
+            background: #dee;
+            line-height: 40px;
+            border-top:1px solid #ddd;
+            display:flex;
+            justify-content: space-between;
+        }
+        .category_div p{
+            height: 50px;
+            width:300px;
+            font-size:16px;
+            margin-left:20px;
+        }
+        .category_div div{
+            margin-right:20px;
+            line-height: 40px;
+        }
+        .category_div div a{
+            font-size:14px;
+        }
+    </style>
+</head>
+<body class="app sidebar-mini rtl">
+<!--头部-->
+<% include houtaiHeader.ejs %>
+<!--右侧-->
+<main class="app-content">
+    <div class="app-title">
+        <ul class=" nav nav-tabs app-title-tabs">
+            <li class="nav-item active">
+            </li>
+        </ul>
+    </div>
+    <div class="tile">
+        <p style="font-size:20px;">添加分类（先添加分类，再给分类添加数据）</p>
+        <div style="display:flex;margin-top:20px;">
+            <p style="font-size:15px;">设置分类名称：</p>
+            <input id="category_ipt" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            <button id="category_btn" type="button" class="btn btn-primary" style="margin-left:10px;">提交</button>
+        </div>
+    </div>
+    <div class="tile">
+        <% for(var i=0 ; i<result.length ; i++){ %>
+            <div class="category_div">
+                <p><%= result[i].category %></p>
+                <div><a href="/vue/setCategoryContent?id=<%= result[i].id %>">设置</a></div>
+            </div>
+        <% } %>
+    </div>
+
+</main>
+<script>
+    $("#category_btn").click(function () {
+        var category = $('#category_ipt').val()
+        $.get('/vue/setCategory',{'category':category},function (result) {
+            if(result==1) {
+                alert('提交成功');
+                window.location='/vue/shareImage';
+            }else if(result==-1){
+                alert('提交失败，请重新提交')
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

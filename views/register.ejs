@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- stylesheet css -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href="css/style.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="css/templatemo-blue.css">
+	<style>
+		.register{
+			background: rgba(160,192,221,0.6);
+			padding: 50px 30px 30px 30px;
+			border-radius:8px;
+			box-shadow: 0 0 5px #999;
+		}
+		#err{
+			border-radius: 3px;
+			padding: 10px;
+			position: absolute;
+			bottom: -55px;
+			width: 100%;
+			left: 0;
+			display:none;
+		}
+	</style>
+</head>
+<body data-spy="scroll" data-target=".navbar-collapse">
+<% include header.ejs %>
+<!-- preloader section -->
+<div class="preloader">
+	<div class="sk-spinner sk-spinner-wordpress">
+       <span class="sk-inner-circle"></span>
+     </div>
+</div>
+
+<!-- header section -->
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4 col-sm-4 register">
+				<form action="" method="post">
+					<div class="form-group">
+						<label for="exampleInputEmail1" style="color:white">用户名</label>
+						<input type="text" class="form-control" id="username" placeholder="name">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputPassword1" style="color:white">密码</label>
+						<input type="password" class="form-control" id="password" placeholder="Password">
+					</div>
+					<button type="button" class="btn btn-default" id="btnregist" style="margin-top:10px;">注册</button>
+				</form>
+				<p class="bg-danger" id="err"></p>
+			</div>
+		</div>
+
+	</div>
+</header>
+
+
+
+<!-- javascript js -->	
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>	
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/custom.js"></script>
+<script>
+	$('input').focus(function () {
+		$('#err').fadeOut();
+    })
+	$('#btnregist').click(function () {
+        $.post('/doregist',
+			{ username:$('#username').val(),password:$('#password').val()} ,
+			function (result) {
+                if (result == 1) {
+                    //    成功
+					alert('注册成功');
+					window.location='/'
+                } else if (result == -1) {
+                    $('#err').fadeIn();
+                    $('#err').html('用户名重复，请重新输入')
+                } else if (result == -3) {
+                    $('#err').fadeIn();
+                    $('#err').html('服务器错误')
+                }
+            }
+        )
+    })
+</script>
+<script>
+    $("#houtai").click(function () {
+        alert('请先登录再进入后台')
+    })
+    $("#vue").click(function () {
+        alert('请先登录再进入vue')
+    })
+</script>
+</body>
+</html>

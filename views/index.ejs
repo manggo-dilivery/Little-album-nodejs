@@ -1,0 +1,218 @@
+<doctype html!>
+<html>
+	<head>
+		<title>Home</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="Fat Burn Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+		<script type="application/x-javascript"> addEventListener("load", function() {setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<meta charset utf="8">
+		<!--fonts-->
+		
+        
+		<!--fonts-->
+		<!--link css-->
+		<!--<link rel="stylesheet" type="text/css" href="css/normalize.css" />-->
+		<!--<link rel="stylesheet" type="text/css" href="css/demo.css" />-->
+		<!--bootstrap-->
+			<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<!--coustom css-->
+			<link href="css/style.css" rel="stylesheet" type="text/css"/>
+		<!--default-js-->
+			<script src="js/jquery-3.2.1.min.js"></script>
+		<!--bootstrap-js-->
+			<script src="js/bootstrap.min.js"></script>
+		<!--script-->
+        <style>
+            .article{
+                background: #4aac5b;
+                width:100%;
+                height: auto;
+            }
+            *{margin:0;padding:0;}
+            a {
+                text-decoration:none;
+                out-line: none;
+                color: #444;
+            }
+            a:link{text-decoration:none; cursor:pointer; color:red;}
+            .article_box{
+                width:80%;
+                height:auto;
+                background: #fff;
+                margin:0 auto;
+                padding: 30px 30px;
+                border-radius:5px;
+                box-shadow:0 0 8px #999;
+                display:flex;
+                margin-top:30px;
+            }
+            .article_box_image{
+                width:80px;
+                height: 80px;
+                border-radius:50%;
+            }
+            .article_box_content{
+                margin-left:20px;
+                width:85%;
+            }
+            .article_box_content p:first-child{
+                font-size:22px;
+            }
+            .article_box_content p:last-child{
+                font-size: 16px;
+            }
+            .article_box_button{
+                width:100%;
+                height: auto;
+                display:flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-top:20px;
+            }
+            .article_box_button_a{
+                padding: 5px 10px;
+                background: #4b92dd;
+                color:#fff;
+                border-radius:3px;
+                box-shadow:0 0 3px #999 ;
+                border:none;
+                margin-left:30px;
+            }
+            .index_page{
+                width:80%;
+                margin:0 auto;
+                display:flex;
+                justify-content: flex-end;
+            }
+            .title{
+                display: inline-block;
+                white-space: nowrap;
+                width: 90%;
+                overflow: hidden;
+                text-overflow:ellipsis;
+            }
+            .introduction{
+                overflow:hidden;
+                text-overflow:ellipsis;
+                display:-webkit-box;
+                -webkit-box-orient:vertical;
+                -webkit-line-clamp:2;
+                width: 100%;
+            }
+        </style>
+
+	</head>
+    <body>
+        <div class="header-top">
+            <% include header.ejs %>
+            <svg id="bigTriangleColor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 102" preserveAspectRatio="none">
+                <path d="M0 0 L50 100 L100 0 Z" />
+            </svg>
+                <!--header-text-->
+                <div class="head-top-text">
+                    <div class="container">
+                        <!--<h2>Lorem Ipsum</h2>-->
+                        <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br> Lorem Ipsum has been the industry's standard dummy text </p>-->
+                        <!--<a class="btn btn-default hd-more" href="#" role="button">more</a>-->
+                    </div>
+                </div>
+            </div>
+        <div id="allshuoshuo">
+        </div>
+
+        <div class="index_page">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="footer">
+            <div class="container">
+                <div class="col-md-4 ft logo">
+                    <div class="logo fot">
+                       <h1><a href="index.html" class="ft-log">Fat burn</a></h1>
+                    </div>
+                </div>
+                <div class="col-md-4 ft cpyrt">
+                    <p>Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://h2design.taobao.com/">氢设计</a></p>
+                </div>
+                <div class="col-md-4 ft soc">
+                    <ul class="social">
+                        <li><a href="#" class="face"></a></li>
+                        <li><a href="#" class="twit"></a></li>
+                        <li><a href="#" class="gplus"></a></li>
+                        <li><a href="#" class="inst"></a></li>
+                        <li><a href="#" class="pint"></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <script type="text/x-handlebars-template" id="moban">
+            <div class="article_box">
+                <img class="article_box_image" src="/avatar/{{= avatar }}" alt="">
+                <div class="article_box_content">
+                    <p class="title">{{= title }}</p>
+                    <p class="introduction">{{= introduction }}</p>
+                    <div class="article_box_button">
+                        <a class="article_box_button_a" href="/content?index={{=_id}}">查看原文</a>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script src="js/underscore-noflect.js"></script>
+        <script>
+            var compiled = _.template($("#moban").html());
+            $(function () {
+                getpage(0);
+                function getpage(page) {
+                    $("#allshuoshuo").html("");
+                    $.ajax({
+                        "url" : "getAllArticle?page="+page,
+                        "type" : "get",
+                        "success" : function(result){
+                            iterator(page);
+                            function iterator(i){
+                                if(i==result.length){
+                                    return;
+                                }
+                                $.get('/getuserinfo?username=' + result[i].username,function (result2) {
+                                    result[i].avatar = result2;
+                                    console.log(result[i])
+                                    var htmlstr = compiled(result[i]);
+                                    $("#allshuoshuo").append($(htmlstr))
+                                })
+                                iterator(i+1);
+                            }
+                        }
+                    })
+                }
+                //    获取article里的数据总个数
+                $.get('/getpage',function (result) {
+                    var pageamout = Math.ceil(result/6);
+                    for(var i=1 ; i<=pageamout ; i++){
+                        $(".pagination").append("<li><a href='javascript:void(0)'>" + i + "</a></li>");
+                    }
+                    $(".pagination li:first").addClass("active");
+                    $(".pagination li").click(function () {
+                        var page = $(this).index();
+                        getpage(page);
+                        $(this).addClass("active").siblings().removeClass("active");
+                    })
+                })
+            })
+        </script>
+        <script>
+            $("#houtai").click(function () {
+                alert('请先登录再进入后台')
+            })
+            $("#vue").click(function () {
+                alert('请先登录再进入vue')
+            })
+        </script>
+    </body>
+</html>
+</doctype>

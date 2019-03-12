@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>HOME</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<!-- stylesheet css -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!--<link rel="stylesheet" href="css/font-awesome.min.css">-->
+	<link rel="stylesheet" href="css/templatemo-blue.css">
+	<link href="css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+	<style>
+		*{margin:0;padding:0;}
+		a {
+			text-decoration:none;
+			out-line: none;
+			color: #444;
+		}
+		a:link{text-decoration:none; cursor:pointer; }
+		.article_box{
+			width:80%;
+			height:auto;
+			background: #fff;
+			margin:0 auto;
+			padding: 30px 30px;
+			border-radius:5px;
+			box-shadow:0 0 8px #999;
+			display:flex;
+			margin-top:30px;
+		}
+		.article_box_image{
+			width:80px;
+			height: 80px;
+			border-radius:50%;
+		}
+		.article_box_content{
+			margin-left:20px;
+			width:85%;
+		}
+		.article_box_content p:first-child{
+			font-size:22px;
+		}
+		.article_box_content p:last-child{
+			font-size: 16px;
+		}
+		.article_box_button{
+			width:100%;
+			height: auto;
+			display:flex;
+			justify-content: flex-end;
+			align-items: center;
+			margin-top:20px;
+		}
+		.article_box_button_a{
+			padding: 5px 10px;
+			background: #4b92dd;
+			color:#fff;
+			border-radius:3px;
+			box-shadow:0 0 3px #999 ;
+			border:none;
+			margin-left:30px;
+		}
+		.a-upload {
+			padding: 4px 10px;
+			height: 30px;
+			line-height: 20px;
+			position: relative;
+			cursor: pointer;
+			color: #888;
+			font-size:14px;
+			text-shadow: none;
+			background: #fafafa;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			overflow: hidden;
+			display: inline-block;
+			*display: inline;
+			*zoom: 1
+		}
+
+		.a-upload  input {
+			position: absolute;
+			right: 0;
+			top: 0;
+			opacity: 0;
+			filter: alpha(opacity=0);
+			cursor: pointer
+		}
+
+		.a-upload:hover {
+			color: #444;
+			background: #eee;
+			border-color: #ccc;
+			text-decoration: none
+		}
+		.upload_div{
+			display:flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.title{
+			display: inline-block;
+			white-space: nowrap;
+			width: 90%;
+			overflow: hidden;
+			text-overflow:ellipsis;
+		}
+		.introduction{
+			overflow:hidden;
+			text-overflow:ellipsis;
+			display:-webkit-box;
+			-webkit-box-orient:vertical;
+			-webkit-line-clamp:2;
+			width: 100%;
+		}
+	</style>
+</head>
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<!-- preloader section -->
+<div class="preloader">
+	<div class="sk-spinner sk-spinner-wordpress">
+       <span class="sk-inner-circle"></span>
+     </div>
+</div>
+<!-- header section -->
+<header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<img src="avatar/<%= avatar %>" class="img-responsive img-circle tm-border" alt="templatemo easy profile">
+				<div class="upload_div">
+					<form action="/doavatar" method="post" enctype="multipart/form-data">
+						<div>
+							<a href="javascript:;" class="a-upload">
+								<input type="file" name="touxiang" id="username" >上传头像
+							</a>
+						</div>
+						<button type="submit" id="loginbtn" class="btn btn-default" >上传</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<div style="width:80%;height:auto;margin:0 auto;display:flex;">
+    <div style="background:#fff;border:2px solid #333;width:10%;text-align: center;line-height: 30px">标题</div>
+    <input type="text" name="title" id="title" class="form-control" style="width:90%;display:inline-block" placeholder="标题">
+</div>
+<div style="width:80%;height:auto;margin:0 auto;display:flex;">
+	<div style="background:#fff;border:2px solid #333;width:10%;text-align: center;line-height: 30px">简介</div>
+	<input type="text" name="introduction" id="introduction" class="form-control" style="width:90%;display:inline-block" placeholder="简介">
+</div>
+<div style="width:80%;height:auto;margin:0 auto;">
+	<div id="summernote"></div>
+</div>
+<div style="width:80%;height:auto;margin:0 auto;margin-top:0;">
+	<button type="button" style="float:right" id="strbtn" class="btn btn-primary">提交</button>
+	<div style="clear: both"></div>
+</div>
+
+<div class="row" id="allshuoshuo">
+</div>
+<% if(result.length==0){%>
+	<div></div>
+<%}else{%>
+<% for (var i=result.length-1 ; i>=0 ; i--) { %>
+	<div class="article_box">
+		<img class="article_box_image" src="/avatar/<%= avatar %>" alt="">
+		<div class="article_box_content">
+			<p class="title"><%= result[i].title %></p>
+			<p class="introduction"><%= result[i].introduction %></p>
+			<div class="article_box_button">
+				<a href="/deleteContent?index=<%=result[i]._id%>">删除</a>
+				<a class="article_box_button_a" href="/content?index=<%=result[i]._id%>">查看原文</a>
+			</div>
+		</div>
+	</div>
+<% } %>
+<% } %>
+
+<!-- footer section -->
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<p>Copyright &copy; 2015.Company name All rights reserved.</p>
+				<ul class="social-icons">
+					<li><a href="#" class="fa fa-facebook"></a></li>
+                    <li><a href="#" class="fa fa-google-plus"></a></li>
+					<li><a href="#" class="fa fa-twitter"></a></li>
+					<li><a href="#" class="fa fa-dribbble"></a></li>
+					<li><a href="#" class="fa fa-github"></a></li>
+					<li><a href="#" class="fa fa-behance"></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!--<script type="text/template" id="moban">-->
+	<!--{{ for (var i=result.length-1 ; i>=0 ; i&#45;&#45;) { }}-->
+		<!--<div class="article_box">-->
+			<!--<img class="article_box_image" src="/avatar/<%= avatar %>" alt="">-->
+			<!--<div class="article_box_content">-->
+				<!--<p>{{= result[i].title }}</p>-->
+				<!--<p>{{= result[i].introduction }}</p>-->
+				<!--<div class="article_box_button">-->
+					<!--<a href="/deleteContent">删除</a>-->
+					<!--<button class="btn btn-default">修改</button>-->
+					<!--<a class="article_box_button_a" href="/content?index={{=i}}">查看原文</a>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--{{ } }}-->
+<!--</script>-->
+<!-- javascript js -->	
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="/summernote/summernote.min.js"></script>
+<script type="text/javascript" src="/summernote/lang/summernote-zh-CN.js"></script>
+<script src="/js/underscore-noflect.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            lang: 'zh-CN',
+            height: 400,
+            placeholder: '请输入文本...',
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontname', 'fontsize', 'color']],
+                ['para', ['ul', 'ol', 'paragraph', 'height']],
+                ['insert', ['table', 'link', 'picture', 'video']],
+                ['help', ['help']]
+            ],
+            callbacks: {
+                onImageUpload: function (files) {
+                    var imageData = new FormData();
+                    imageData.append("imageData", files[0]);
+                    $.ajax({
+                        data: imageData,
+                        type: "POST",
+                        url: "/report/uploadImage",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            if (result.status = "success") {
+                                var imgNode = document.createElement("img");
+                                //读取后台返回的图片url
+                                imgNode.src = result.imageUrl;
+                                console.log(imgNode.src);
+                                $('#summernote').summernote('insertNode', imgNode);
+                            }
+                        },
+                        error: function () {
+                            alert("上传图片失败");
+                        }
+                    });
+                }
+            }
+        });
+		$("#strbtn").click(function () {
+            var markupStr = $('#summernote').summernote('code');
+            $.post('/report/markupStr',{'markupStr':markupStr,'title':$('#title').val(),'introduction':$('#introduction').val()},function (result) {
+                if(result==1){
+                    alert("提交成功")
+                    window.location='/person'
+                }else if(result==-1){
+                    alert("服务器故障")
+                }
+            })
+		})
+    });
+
+    // var compiled = _.template($("#moban").html());
+	// $.get("search/article",function (result) {
+	// 	// console.log(result);
+    //     console.log('htmlstr:'+htmlstr)
+    //     var htmlstr = compiled(result);
+	//
+    //     $("#allshuoshuo").append($(htmlstr))
+    // })
+
+
+//	删除按钮点击发送请求
+
+
+</script>
+</body>
+</html>

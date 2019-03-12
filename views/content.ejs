@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- stylesheet css -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/templatemo-blue.css">
+	<style>
+		*{margin:0;padding:0;}
+		a {
+			text-decoration:none;
+			out-line: none;
+			color: #444;
+		}
+		a:link{text-decoration:none; cursor:pointer; color:red;}
+		.article_box{
+			width:80%;
+			height:auto;
+			background: #fff;
+			margin:0 auto;
+			padding: 30px 30px;
+			border-radius:5px;
+			box-shadow:0 0 8px #999;
+			display:flex;
+			margin-top:30px;
+		}
+		.article_box_image{
+			width:80px;
+			height: 80px;
+			border-radius:50%;
+		}
+		.article_box_content{
+			margin-left:20px;
+			width:85%;
+		}
+		.article_box_content p:first-child{
+			font-size:22px;
+		}
+		.article_box_content p:last-child{
+			font-size: 16px;
+
+		}
+		.article_box_button{
+			width:100%;
+			height: auto;
+			display:flex;
+			justify-content: flex-end;
+			align-items: center;
+			margin-top:20px;
+		}
+		.article_box_button_a{
+			padding: 5px 10px;
+			background: #4b92dd;
+			color:#fff;
+			border-radius:3px;
+			box-shadow:0 0 3px #999 ;
+			border:none;
+			margin-left:30px;
+		}
+	</style>
+
+</head>
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+<!-- preloader section -->
+
+<div class="article_box">
+	<img class="article_box_image" src="/avatar/<%= avatar %>" alt="">
+	<div class="article_box_content">
+		<p><%= title %></p>
+		<p><%= introduction %></p>
+		<div><%- content %></div>
+	</div>
+</div>
+
+
+<!-- javascript js -->	
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>	
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/custom.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台</title>
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+    <script src="/summernote/summernote.min.js"></script>
+    <script type="text/javascript" src="/summernote/lang/summernote-zh-CN.js"></script>
+    <style>
+        .note-popover,.popover{
+            display:none !important;
+        }
+    </style>
+</head>
+<body class="app sidebar-mini rtl">
+<!--头部-->
+<% include houtaiHeader.ejs %>
+<!--右侧-->
+<main class="app-content">
+    <div class="app-title">
+        <ul class=" nav nav-tabs app-title-tabs">
+            <li class="nav-item active">
+            </li>
+        </ul>
+    </div>
+    <div class="tile">
+        <!--表单-->
+        <div style="width:80%;height:auto;margin:0 auto;display:flex;">
+            <div style="background:#fff;border:2px solid #333;width:10%;text-align: center;line-height: 30px">标题</div>
+            <input type="text" name="title" id="title" class="form-control" style="width:90%;display:inline-block" placeholder="标题">
+        </div>
+        <div style="width:80%;height:auto;margin:0 auto;display:flex;">
+            <div style="background:#fff;border:2px solid #333;width:10%;text-align: center;line-height: 30px">简介</div>
+            <input type="text" name="introduction" id="introduction" class="form-control" style="width:90%;display:inline-block" placeholder="简介">
+        </div>
+        <div style="width:80%;height:auto;margin:0 auto;">
+            <div id="summernote"></div>
+        </div>
+        <div style="width:80%;height:auto;margin:0 auto;margin-top:0;">
+            <button type="button" style="float:right" id="strbtn" class="btn btn-primary">提交</button>
+            <div style="clear: both"></div>
+        </div>
+        <% if(result.length==0){%>
+            <div></div>
+        <%}else{%>
+            <% for (var i=result.length-1 ; i>=0 ; i--) { %>
+                <div class="article_box">
+                    <img class="article_box_image" src="/avatar/<%= avatar %>">
+                    <div class="article_box_content">
+                        <p><%= result[i].title %></p>
+                        <p><%= result[i].introduction %></p>
+                        <div class="article_box_button">
+                            <a href="/vue/deleteContent?index=<%=result[i]._id%>">删除</a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+
+</main>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            lang: 'zh-CN',
+            height: 400,
+            placeholder: '请输入文本...',
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontname', 'fontsize', 'color']],
+                ['para', ['ul', 'ol', 'paragraph', 'height']],
+                ['insert', ['table', 'link', 'picture', 'video']],
+                ['help', ['help']]
+            ],
+            callbacks: {
+                onImageUpload: function (files) {
+                    var imageData = new FormData();
+                    imageData.append("imageData", files[0]);
+                    $.ajax({
+                        data: imageData,
+                        type: "POST",
+                        url: "/vue/uploadstr",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            if (result.status = "success") {
+                                var imgNode = document.createElement("img");
+                                //读取后台返回的图片url
+                                imgNode.src = result.imageUrl;
+                                console.log(imgNode.src);
+                                $('#summernote').summernote('insertNode', imgNode);
+                            }
+                        },
+                        error: function () {
+                            alert("上传图片失败");
+                        }
+                    });
+                }
+            }
+        });
+        $("#strbtn").click(function () {
+            var markupStr = $('#summernote').summernote('code');
+            $.post('/vue/makeupStr2',{'markupStr':markupStr,'title':$('#title').val(),'introduction':$('#introduction').val()},function (result) {
+                if(result==1){
+                    alert("提交成功")
+                    window.location='/vue/houtai'
+                }else if(result==-1){
+                    alert("服务器故障")
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>

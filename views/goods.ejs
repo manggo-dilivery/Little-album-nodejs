@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台</title>
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/plugins/pace.min.js"></script>
+    <script src="/summernote/summernote.min.js"></script>
+    <script type="text/javascript" src="/summernote/lang/summernote-zh-CN.js"></script>
+    <style>
+        .category_div{
+            height: 40px;
+            width:100%;
+            background: #dee;
+            line-height: 40px;
+            border-top:1px solid #ddd;
+            display:flex;
+            justify-content: space-between;
+        }
+        .category_div p{
+            height: 50px;
+            width:300px;
+            font-size:16px;
+            margin-left:20px;
+        }
+        .category_div div{
+            margin-right:20px;
+            line-height: 40px;
+        }
+        .category_div div a{
+            font-size:14px;
+        }
+        .a-upload {
+            padding: 4px 10px;
+            height: 30px;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
+
+        .a-upload  input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer;
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+    </style>
+</head>
+<body class="app sidebar-mini rtl">
+<!--头部-->
+<% include houtaiHeader.ejs %>
+<!--右侧-->
+<main class="app-content">
+    <div class="app-title">
+        <ul class=" nav nav-tabs app-title-tabs">
+            <li class="nav-item active">
+            </li>
+        </ul>
+    </div>
+
+
+    <form action="/vue/goodsInfo" method="post" name="goodsInfo" enctype="multipart/form-data">
+        <div class="tile">
+            <img src="" id="show" width="375">
+            <a href="javascript:;" class="a-upload" style="magin-top:20px;">
+                <input type="file" name="imageData" id="file" onchange="changepic(this)">上传图片
+            </a>
+        </div>
+        <div class="tile">
+            <div style="display:flex;margin-top:20px;">
+                <p style="font-size:15px;">商品名称：</p>
+                <input name="goods_name" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            </div>
+            <div style="display:flex;margin-top:20px;">
+                <p style="font-size:15px;">商品原价格：</p>
+                <input name="goods_price1" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            </div>
+            <div style="display:flex;margin-top:20px;">
+                <p style="font-size:15px;">商品折扣后价格：</p>
+                <input name="goods_price2" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            </div>
+            <div style="display:flex;margin-top:20px;">
+                <p style="font-size:15px;">商品货号：</p>
+                <input name="goods_number" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            </div>
+            <div style="display:flex;margin-top:20px;">
+                <p style="font-size:15px;">库存情况：</p>
+                <input name="goods_left" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            </div>
+            <div style="display:flex;margin-top:20px;">
+                <p style="font-size:15px;">简介：</p>
+                <input name="goods_intruduction" type="text" class="form-control" style="width:250px;margin-left:40px;">
+            </div>
+            <div style="display:flex;justify-content: flex-end">
+                <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </form>
+
+
+</main>
+<script>
+    $("#category_btn").click(function () {
+        var category = $('#category_ipt').val()
+        $.get('/vue/setCategory',{'category':category},function (result) {
+            if(result==1) {
+                alert('提交成功');
+                window.location='/vue/shareImage';
+            }else if(result==-1){
+                alert('提交失败，请重新提交')
+            }
+        })
+    })
+    function changepic(obj) {
+        //console.log(obj.files[0]);//这里可以获取上传文件的name
+        var newsrc=getObjectURL(obj.files[0]);
+        document.getElementById('show').src=newsrc;
+    }
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null ;
+        // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+</script>
+</body>
+</html>
